@@ -557,7 +557,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+<<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = "com.navigine.Navigine-iOS555";
+=======
+				PRODUCT_BUNDLE_IDENTIFIER = "com.navigine.Navigine-iOS55";
+>>>>>>> 9581cb4010b706d955a3a0aa89d01361f71ea132
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = NavigineDemo/BridgingHeader.h;
