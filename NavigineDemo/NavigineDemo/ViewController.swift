@@ -13,7 +13,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         // Do any additional setup after loading the view.
 
-        mNavigineSdk = NCNavigineSdk.createInstance("0000-0000-0000-0000", server: "https://ips.navigine.com")
+        mNavigineSdk = NCNavigineSdk.createInstance("5301-135E-5B35-C1A9", server: "https://ips.navigine.com")
 
         mLocationListManager = mNavigineSdk?.getLocationListManager()
 

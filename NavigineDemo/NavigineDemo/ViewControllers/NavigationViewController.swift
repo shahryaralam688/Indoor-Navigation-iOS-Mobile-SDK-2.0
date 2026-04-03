@@ -27,7 +27,7 @@ class NavigationViewController: UIViewController {
     
     var currentFloor = 0
     
-    var mPosition: NCFlatIconMapObject!
+    var mPosition: NCIconMapObject!
     var mCirclePosition: NCCircleMapObject!
     var mPolyline: NCPolylineMapObject!
     
@@ -67,11 +67,12 @@ class NavigationViewController: UIViewController {
 //            minor: 26457,
 //            power: 32, timeout: 100, rssiMin: -89, rssiMax: -55);
         
-        mPosition = mLocationView.locationWindow.addFlatIconMapObject()
+        mPosition = mLocationView.locationWindow.addIconMapObject()
         mPosition.setBitmap(UIImage(named: "UserLocation"))
         mPosition.setSize(Float(30), height: Float(30))
         mPosition.setVisible(false)
-        mPosition.setStyle("{ order: 1, collide: false}")
+        mPosition.setFlat(true)
+        // Style API removed in current SDK; keep default rendering.
         
         mPolyline = mLocationView.locationWindow.addPolylineMapObject()
         mPolyline.setColor(0.0, green: 0.5, blue: 0.5, alpha: 1)
@@ -178,8 +179,12 @@ extension NavigationViewController: NCLocationListener {
 
 extension NavigationViewController: NCRouteListener {
     func onPathsUpdated(_ paths: [NCRoutePath]) {
+        guard let firstPath = paths.first else {
+            mPolyline.setVisible(false)
+            return
+        }
         var points: [NCPoint] = []
-        for point in paths[0].points {
+        for point in firstPath.points {
             points.append(point.point)
         }
 
@@ -196,9 +201,9 @@ extension NavigationViewController: NCPositionListener {
                 mOrientationPointState = true
                 mPosition.setBitmap(UIImage(named: "curDirection"))
                 mPosition.setSize(Float(68), height: Float(68))
-                mPosition.setAngle(position.locationHeading!.doubleValue)
+                mPosition.setAngle(Float(position.locationHeading!.doubleValue))
             }
-            mPosition.setAngleAnimated(position.locationHeading!.doubleValue, duration: 1, type: NCAnimationType.cubic)
+            mPosition.setAngleAnimated(Float(position.locationHeading!.doubleValue), duration: 1.0, type: NCAnimationType.cubic)
         } else {
             if (mOrientationPointState) {
                 mOrientationPointState = false
@@ -350,4 +355,3 @@ class RemovablePanelLayout: FloatingPanelIntrinsicLayout {
         }
     }
 }
-
